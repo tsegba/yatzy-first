@@ -2,6 +2,7 @@ package service;
 
 import enums.CategoryEnum;
 import enums.FaceEnum;
+import error.InvalidRollDiceException;
 import error.InvalidYatzyCategoryException;
 import model.Dice;
 
@@ -22,9 +23,15 @@ public class RollDices {
     private static final  int YATZY_LARGE = 20;
     private static final  int YATZY_BLANK = 0;
     public RollDices(final int[] dices) {
+        if(dices == null || dices.length != 5){
+            throw new InvalidRollDiceException("Invalid roll size: require 5 dice face");
+        }
         this.dices = Arrays.stream(dices).mapToObj(Dice::new).collect(Collectors.toList());
     }
     public int getScore(final CategoryEnum category){
+        if(category == null ) {
+            throw new InvalidYatzyCategoryException("Invalid category chosen");
+        }
         switch (category) {
             case CHANCE:
                 return sum();
