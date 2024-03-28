@@ -1,4 +1,4 @@
-import model.RollDices;
+import service.RollDices;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -67,29 +67,29 @@ class YatzyTest {
 
     @Test
     void one_pair() {
-        assertEquals(6, Yatzy.score_pair(new RollDices(new int[]{3, 4, 3, 5, 6})));
-        assertEquals(10, Yatzy.score_pair(new RollDices(new int[]{5, 3, 3, 3, 5})));
-        assertEquals(12, Yatzy.score_pair(new RollDices(new int[]{5, 3, 6, 6, 5})));
+        assertEquals(6, Yatzy.scorePair(new RollDices(new int[]{3, 4, 3, 5, 6})));
+        assertEquals(10, Yatzy.scorePair(new RollDices(new int[]{5, 3, 3, 3, 5})));
+        assertEquals(12, Yatzy.scorePair(new RollDices(new int[]{5, 3, 6, 6, 5})));
     }
 
     @Test
     void two_Pair() {
-        assertEquals(16, Yatzy.two_pair(new RollDices(new int[]{3, 3, 5, 4, 5})));
-        assertEquals(16, Yatzy.two_pair(new RollDices(new int[]{3, 3, 5, 5, 5})));
+        assertEquals(16, Yatzy.twoPair(new RollDices(new int[]{3, 3, 5, 4, 5})));
+        assertEquals(16, Yatzy.twoPair(new RollDices(new int[]{3, 3, 5, 5, 5})));
     }
 
     @Test
     void three_of_a_kind() {
-        assertEquals(9, Yatzy.three_of_a_kind(new RollDices(new int[]{3, 3, 3, 4, 5})));
-        assertEquals(15, Yatzy.three_of_a_kind(new RollDices(new int[]{5, 3, 5, 4, 5})));
-        assertEquals(9, Yatzy.three_of_a_kind(new RollDices(new int[]{3, 3, 3, 3, 5})));
+        assertEquals(9, Yatzy.threeOfAKind(new RollDices(new int[]{3, 3, 3, 4, 5})));
+        assertEquals(15, Yatzy.threeOfAKind(new RollDices(new int[]{5, 3, 5, 4, 5})));
+        assertEquals(9, Yatzy.threeOfAKind(new RollDices(new int[]{3, 3, 3, 3, 5})));
     }
 
     @Test
     void four_of_a_knd() {
-        assertEquals(12, Yatzy.four_of_a_kind(new RollDices(new int[]{3, 3, 3, 3, 5})));
-        assertEquals(20, Yatzy.four_of_a_kind(new RollDices(new int[]{5, 5, 5, 4, 5})));
-        assertEquals(9, Yatzy.three_of_a_kind(new RollDices(new int[]{3, 3, 3, 3, 3})));
+        assertEquals(12, Yatzy.fourOfAKind(new RollDices(new int[]{3, 3, 3, 3, 5})));
+        assertEquals(20, Yatzy.fourOfAKind(new RollDices(new int[]{5, 5, 5, 4, 5})));
+        assertEquals(9, Yatzy.threeOfAKind(new RollDices(new int[]{3, 3, 3, 3, 3})));
     }
 
     @Test

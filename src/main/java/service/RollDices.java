@@ -1,8 +1,9 @@
-package model;
+package service;
 
 import enums.CategoryEnum;
 import enums.FaceEnum;
 import error.InvalidYatzyCategoryException;
+import model.Dice;
 
 import java.util.Arrays;
 import java.util.List;

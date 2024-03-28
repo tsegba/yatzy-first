@@ -2,7 +2,6 @@ package service;
 
 
 import enums.CategoryEnum;
-import model.RollDices;
 
 public class Yatzy {
     private final RollDices rollDices;
@@ -44,19 +43,19 @@ public class Yatzy {
         return this.rollDices.getScore(CategoryEnum.SIXES);
     }
 
-    public static int score_pair(final RollDices rollDices) {
+    public static int scorePair(final RollDices rollDices) {
         return rollDices.getScore(CategoryEnum.PAIR);
     }
 
-    public static int two_pair(final RollDices rollDices) {
+    public static int twoPair(final RollDices rollDices) {
         return rollDices.getScore(CategoryEnum.TWO_PAIRS);
     }
 
-    public static int three_of_a_kind(final RollDices rollDices) {
+    public static int threeOfAKind(final RollDices rollDices) {
         return rollDices.getScore(CategoryEnum.THREE_OF_A_KIND);
     }
 
-    public static int four_of_a_kind(final RollDices rollDices) {
+    public static int fourOfAKind(final RollDices rollDices) {
         return rollDices.getScore(CategoryEnum.FOUR_OF_A_KIND);
     }
 
