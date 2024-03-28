@@ -1,4 +1,4 @@
-# Yatzy Refactoring Kata
+# Yatzy Refactoring Kata - Java 11 Version
 
 **Kata readme by [Emily Bache](https://github.com/emilybache)** Thanks!
 

@@ -1,111 +1,114 @@
-import model.Dice;
-import org.junit.*;
-import static org.junit.Assert.*;
+import model.RollDices;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import service.Yatzy;
 
-public class YatzyTest {
 
-    @Test
-    public void chance_scores_sum_of_all_dice() {
-        int expected = 15;
-        int actual = Yatzy.chance(new Dice(2,3,4,5,1));
-        assertEquals(expected, actual);
-        assertEquals(16, Yatzy.chance(new Dice(3,3,4,5,1)));
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class YatzyTest {
+
+    @ParameterizedTest
+    @MethodSource("TestUtilDataProvider#chanceScoringRule")
+     void chance_scores_sum_of_all_dice(int d1, int d2, int d3, int d4, int d5, int expectedScore) {
+        int actual = Yatzy.chance(new RollDices(new int[]{d1, d2, d3, d4, d5}));
+        assertEquals(expectedScore, actual);
     }
 
-    @Test public void yatzy_scores_50() {
-        int expected = 50;
-        int actual = Yatzy.yatzy(4,4,4,4,4);
-        assertEquals(expected, actual);
-        assertEquals(50, Yatzy.yatzy(6,6,6,6,6));
-        assertEquals(0, Yatzy.yatzy(6,6,6,6,3));
+
+    @ParameterizedTest
+    @MethodSource("TestUtilDataProvider#yatzyScoringRule")
+    void yatzy_scores_50(int d1, int d2, int d3, int d4, int d5, int expectedScore) {
+        int actual = Yatzy.yatzy(new RollDices(new int[]{d1, d2, d3, d4, d5}));
+        assertEquals(expectedScore, actual);
     }
 
-    @Test public void test_1s() {
-        assertTrue(Yatzy.ones(1,2,3,4,5) == 1);
-        assertEquals(2, Yatzy.ones(1,2,1,4,5));
-        assertEquals(0, Yatzy.ones(6,2,2,4,5));
-        assertEquals(4, Yatzy.ones(1,2,1,1,1));
+
+    @ParameterizedTest
+    @MethodSource("TestUtilDataProvider#onesScoringRule")
+    void test_1s(int d1, int d2, int d3, int d4, int d5, int expectedScore) {
+        assertEquals(expectedScore, Yatzy.ones(new RollDices(new int[]{d1, d2, d3, d4, d5})));
     }
 
-    @Test
-    public void test_2s() {
-        assertEquals(4, Yatzy.twos(1,2,3,2,6));
-        assertEquals(10, Yatzy.twos(2,2,2,2,2));
+    @ParameterizedTest
+    @MethodSource("TestUtilDataProvider#twosScoringRule")
+    void test_2s(int d1, int d2, int d3, int d4, int d5, int expectedScore) {
+        assertEquals(expectedScore, Yatzy.twos(new RollDices(new int[]{d1, d2, d3, d4, d5})));
     }
 
-    @Test
-    public void test_threes() {
-        assertEquals(6, Yatzy.threes(1,2,3,2,3));
-        assertEquals(12, Yatzy.threes(2,3,3,3,3));
+
+    @ParameterizedTest
+    @MethodSource("TestUtilDataProvider#threesScoringRule")
+    void test_threes(int d1, int d2, int d3, int d4, int d5, int expectedScore) {
+        assertEquals(expectedScore, Yatzy.threes(new RollDices(new int[]{d1, d2, d3, d4, d5})));
     }
 
-    @Test
-    public void fours_test() 
-    {
-        assertEquals(12, new Yatzy(4,4,4,5,5).fours());
-        assertEquals(8, new Yatzy(4,4,5,5,5).fours());
-        assertEquals(4, new Yatzy(4,5,5,5,5).fours());
+
+    @ParameterizedTest
+    @MethodSource("TestUtilDataProvider#foursScoringRule")
+    void fours_test(int d1, int d2, int d3, int d4, int d5, int expectedScore) {
+        assertEquals(expectedScore, new Yatzy(d1, d2, d3, d4, d5).fours());
     }
 
-    @Test
-    public void fives() {
-        assertEquals(10, new Yatzy(4,4,4,5,5).fives());
-        assertEquals(15, new Yatzy(4,4,5,5,5).fives());
-        assertEquals(20, new Yatzy(4,5,5,5,5).fives());
+
+    @ParameterizedTest
+    @MethodSource("TestUtilDataProvider#fivesScoringRule")
+    void fives(int d1, int d2, int d3, int d4, int d5, int expectedScore) {
+        assertEquals(expectedScore, new Yatzy(d1, d2, d3, d4, d5).fives());
     }
 
-    @Test
-    public void sixes_test() {
-        assertEquals(0, new Yatzy(4,4,4,5,5).sixes());
-        assertEquals(6, new Yatzy(4,4,6,5,5).sixes());
-        assertEquals(18, new Yatzy(6,5,6,6,5).sixes());
-    }
 
-    @Test
-    public void one_pair() {
-        assertEquals(6, Yatzy.score_pair(3,4,3,5,6));
-        assertEquals(10, Yatzy.score_pair(5,3,3,3,5));
-        assertEquals(12, Yatzy.score_pair(5,3,6,6,5));
+    @ParameterizedTest
+    @MethodSource("TestUtilDataProvider#sixesScoringRule")
+    void sixes_test(int d1, int d2, int d3, int d4, int d5, int expectedScore) {
+        assertEquals(expectedScore, new Yatzy(d1, d2, d3, d4, d5).sixes());
     }
 
     @Test
-    public void two_Pair() {
-        assertEquals(16, Yatzy.two_pair(3,3,5,4,5));
-        assertEquals(16, Yatzy.two_pair(3,3,5,5,5));
+    void one_pair() {
+        assertEquals(6, Yatzy.score_pair(new RollDices(new int[]{3, 4, 3, 5, 6})));
+        assertEquals(10, Yatzy.score_pair(new RollDices(new int[]{5, 3, 3, 3, 5})));
+        assertEquals(12, Yatzy.score_pair(new RollDices(new int[]{5, 3, 6, 6, 5})));
     }
 
     @Test
-    public void three_of_a_kind() 
-    {
-        assertEquals(9, Yatzy.three_of_a_kind(3,3,3,4,5));
-        assertEquals(15, Yatzy.three_of_a_kind(5,3,5,4,5));
-        assertEquals(9, Yatzy.three_of_a_kind(3,3,3,3,5));
+    void two_Pair() {
+        assertEquals(16, Yatzy.two_pair(new RollDices(new int[]{3, 3, 5, 4, 5})));
+        assertEquals(16, Yatzy.two_pair(new RollDices(new int[]{3, 3, 5, 5, 5})));
     }
 
     @Test
-    public void four_of_a_knd() {
-        assertEquals(12, Yatzy.four_of_a_kind(3,3,3,3,5));
-        assertEquals(20, Yatzy.four_of_a_kind(5,5,5,4,5));
-        assertEquals(9, Yatzy.three_of_a_kind(3,3,3,3,3));
+    void three_of_a_kind() {
+        assertEquals(9, Yatzy.three_of_a_kind(new RollDices(new int[]{3, 3, 3, 4, 5})));
+        assertEquals(15, Yatzy.three_of_a_kind(new RollDices(new int[]{5, 3, 5, 4, 5})));
+        assertEquals(9, Yatzy.three_of_a_kind(new RollDices(new int[]{3, 3, 3, 3, 5})));
     }
 
     @Test
-    public void smallStraight() {
-        assertEquals(15, Yatzy.smallStraight(1,2,3,4,5));
-        assertEquals(15, Yatzy.smallStraight(2,3,4,5,1));
-        assertEquals(0, Yatzy.smallStraight(1,2,2,4,5));
+    void four_of_a_knd() {
+        assertEquals(12, Yatzy.four_of_a_kind(new RollDices(new int[]{3, 3, 3, 3, 5})));
+        assertEquals(20, Yatzy.four_of_a_kind(new RollDices(new int[]{5, 5, 5, 4, 5})));
+        assertEquals(9, Yatzy.three_of_a_kind(new RollDices(new int[]{3, 3, 3, 3, 3})));
     }
 
     @Test
-    public void largeStraight() {
-        assertEquals(20, Yatzy.largeStraight(6,2,3,4,5));
-        assertEquals(20, Yatzy.largeStraight(2,3,4,5,6));
-        assertEquals(0, Yatzy.largeStraight(1,2,2,4,5));
+    void smallStraight() {
+        assertEquals(15, Yatzy.smallStraight(new RollDices(new int[]{1, 2, 3, 4, 5})));
+        assertEquals(15, Yatzy.smallStraight(new RollDices(new int[]{2, 3, 4, 5, 1})));
+        assertEquals(0, Yatzy.smallStraight(new RollDices(new int[]{1, 2, 2, 4, 5})));
     }
 
     @Test
-    public void fullHouse() {
-        assertEquals(18, Yatzy.fullHouse(6,2,2,2,6));
-        assertEquals(0, Yatzy.fullHouse(2,3,4,5,6));
+    void largeStraight() {
+        assertEquals(20, Yatzy.largeStraight(new RollDices(new int[]{6, 2, 3, 4, 5})));
+        assertEquals(20, Yatzy.largeStraight(new RollDices(new int[]{2, 3, 4, 5, 6})));
+        assertEquals(0, Yatzy.largeStraight(new RollDices(new int[]{1, 2, 2, 4, 5})));
+    }
+
+    @Test
+    void fullHouse() {
+        assertEquals(18, Yatzy.fullHouse(new RollDices(new int[]{6, 2, 2, 2, 6})));
+        assertEquals(0, Yatzy.fullHouse(new RollDices(new int[]{2, 3, 4, 5, 6})));
     }
 }
